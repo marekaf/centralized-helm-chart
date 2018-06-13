@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-tls
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.global-static-ip-name: "kubernetes-ingress"
+    kubernetes.io/ingress.allow-http: "false"
+    external-dns.alpha.kubernetes.io/hostname: "gke-ingress.example.com"
+
+spec:
+  tls:
+  - hosts:
+     - my.service.example.com
+     - other.service.example.com
+    secretName: router-tls
+  rules:
+  - host: my.service.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: my-service
+          servicePort: 8081
+        path: /
+
+  - host: other.service.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: other-service
+          servicePort: 5001
+        path: /
+  

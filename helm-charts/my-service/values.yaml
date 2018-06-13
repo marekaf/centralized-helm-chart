@@ -1,0 +1,35 @@
+# Default values for app.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+namespace: default
+nameOverride: APP_NAME
+image:
+  repository: IMAGE_TAG
+  tag: stable
+  pullPolicy: IfNotPresent
+service:
+  name: APP_NAME
+  type: NodePort
+  externalPort: 8080
+  internalPort: 8080
+resources: 
+  limits:
+    cpu: 500m
+    memory: 1800Mi
+  requests:
+    cpu: 100m
+    memory: 1200Mi
+ingress:
+  enabled: false
+env:
+  sqlHost: sqlproxy 
+  sqlUser: example
+  sqlPassword: password
+  sqlPort:  3306
+  sqlName:  example
+  host: "https://dev.example.net"
+livenessProbe:
+  path: /health
+readinessProbe:
+  path: /health

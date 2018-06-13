@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlproxy
+  labels:
+    app: sqlproxy
+    role: server
+    tier: backend
+  namespace: devel
+spec:
+  selector:
+    app: sqlproxy
+  ports:
+  - name: sqlport
+    port: 3306
+    targetPort: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlproxy
+  labels:
+    app: sqlproxy
+    role: server
+    tier: backend
+  namespace: staging
+spec:
+  type: ExternalName
+  externalName: db.example.com
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlproxy
+  labels:
+    app: sqlproxy
+    role: server
+    tier: backend
+  namespace: prod
+spec:
+  type: ExternalName
+  externalName: db.example.com
